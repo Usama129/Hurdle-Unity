@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class player : MonoBehaviour
@@ -9,11 +10,13 @@ public class player : MonoBehaviour
     private float ms;
     private float pivotms;
     private bool onGround = false;
+    private bool gotHit = false;
+    private bool finishLine = false;
     void Start()
     {
         anim = GetComponent<Animator>();
         rg = GetComponent<Rigidbody>();
-        ms = 5000f;
+        ms = 40000f;
         pivotms = 200f;
     }
 
@@ -21,6 +24,7 @@ public class player : MonoBehaviour
     void FixedUpdate()
     {
         float pivot = Input.GetAxis("Horizontal");
+        float jumps = Input.GetAxis("Vertical");
 
         //float walkInput = Input.GetAxis("Vertical");
         //if (walkInput>0)
@@ -34,10 +38,10 @@ public class player : MonoBehaviour
         //{
         //    anim.SetBool("walking", false);
         //}
-        Debug.Log(onGround);
-        if (onGround && Input.GetKey("space"))
+        //jumping by pressing space
+        if (onGround && jumps>0)
         {
-            Debug.Log("jumping1");
+            
             anim.SetBool("jumping", true);
 
             jump();
@@ -50,21 +54,54 @@ public class player : MonoBehaviour
         {
             anim.SetBool("jumping", false);
         }
+        //turning left and right
         if (pivot > 0)
         {
             rg.AddForce(pivotms, 0, 0);
         }
         else if (pivot < 0)
         {
-            Debug.Log("left arrow");
+            
             rg.AddForce(-pivotms, 0, 0);
         }
 
-    }
+        if (gotHit == true)
+        {
+            rg.AddForce(0f, 0f, 0f);
+            Debug.Log("got hit before");
+            anim.SetBool("gotHit", true);
+            Debug.Log("got hit after");
+            
+        }
+        //stop the crouching loop
+        if (Input.GetKey("r"))
+        {
+            gotHit = false;
+            Debug.Log("cancel hit before");
+            anim.SetBool("gotHit", false);
+            Debug.Log("cancel hit after");
+        }
+        if (onGround==true &&jumps<0)
+        {
+           
+            anim.SetBool("crouching", true);
+            onGround = false;
+        }
 
+        if (finishLine == true)
+        {
+            anim.SetBool("finished", true);
+        }
+        //if (onGround == false)
+        //{
+        //    anim.SetBool("crouching", false);
+        //}
+        //anim.SetBool("crouching", false);
+    }
+    //jumping function
     void jump()
     {
-        Debug.Log("jumping2");
+        
         onGround = false;
         rg.AddForce(0, 300f, 0f);
     }
@@ -72,10 +109,24 @@ public class player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("ground"))
         {
-            Debug.Log("onground");
+            Debug.Log("grouund hit");
             rg.drag = 10f;
             onGround = true;
 
+        }
+
+        if (collision.gameObject.CompareTag("obstacles"))
+        {
+           
+            gotHit = true;
+           
+           
+        }
+        if (collision.gameObject.CompareTag("FinishLine"))
+        {
+            Debug.Log("won");
+            print("congratulations!! you won the first level!!");
+            finishLine = true;
         }
 
 
