@@ -34,18 +34,18 @@ public class Avatar : MonoBehaviour
 
         if (currentStateMatches("Midair"))
         {
-            if (DistanceToGround() < 2.5 && GetComponent<Rigidbody>().velocity.y < 0)
+            if (DistanceToGround() < 2.5 && VerticalVelocity() < 0)
             {
                 jumpAnim.Play("End Jump");
             }
         }
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && IsGrounded())
         {
             GetComponent<Rigidbody>().AddForce(Vector3.right * 1, ForceMode.Impulse);
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && IsGrounded())
         {
             GetComponent<Rigidbody>().AddForce(Vector3.left * 1, ForceMode.Impulse);
         }
@@ -62,7 +62,7 @@ public class Avatar : MonoBehaviour
 
     private float DistanceToGround()
     {
-        return Vector3.Distance(GetComponent<Rigidbody>().position, ground.transform.position);
+       return GetComponent<Rigidbody>().position.y - ground.transform.position.y;
     }
 
     private bool IsGrounded()
