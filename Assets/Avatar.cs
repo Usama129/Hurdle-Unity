@@ -9,28 +9,25 @@ public class Avatar : MonoBehaviour
     private Animator jumpAnim;
     private GameObject ground;
     private float jumpForce = 8;
+    public static bool kinectJump;
 
     void Start()
     {
         ground = GameObject.Find("Ground");
         jumpAnim = GetComponent<Animator>();
+        kinectJump = false;
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.UpArrow) && IsGrounded())
+        if ((Input.GetKey(KeyCode.UpArrow) || kinectJump) && IsGrounded() )
         {
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             jumpAnim.Play("Start Jump");
+            kinectJump = false;
         }
 
-        if (currentStateMatches("Start Jump"))
-        {
-            if (VerticalVelocity() < 0.5 && VerticalVelocity() > 0)
-            {
-                jumpAnim.Play("Midair");
-            }
-        }
+        // The transition from Start Jump to Midair is not in code: it is in the Unity Animator view
 
         if (currentStateMatches("Midair"))
         {
@@ -75,8 +72,9 @@ public class Avatar : MonoBehaviour
         return GetComponent<Rigidbody>().velocity.y;
     }
 
-    private bool currentStateMatches(string state)
+    private bool currentStateMatches(string state) // checks if a state matches the current state in the Jump Animator
     {
         return jumpAnim.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
+
 }
