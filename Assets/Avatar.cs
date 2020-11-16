@@ -8,7 +8,9 @@ public class Avatar : MonoBehaviour
 {
     private Animator jumpAnim;
     private GameObject ground;
+
     private float jumpForce = 5;
+
     public static bool kinectJump;
 
     void Start()
@@ -24,6 +26,10 @@ public class Avatar : MonoBehaviour
     void FixedUpdate()
     {
         
+
+
+    void FixedUpdate()
+    {
 
         if ((Input.GetKey(KeyCode.UpArrow) || kinectJump) && IsGrounded() )
         {
@@ -41,6 +47,7 @@ public class Avatar : MonoBehaviour
                 jumpAnim.Play("End Jump");
             }
         }
+
 
         double mostLeft = -4.3;
         double mostRight = 4.3;
@@ -62,6 +69,10 @@ public class Avatar : MonoBehaviour
     }
 
    
+
+
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {

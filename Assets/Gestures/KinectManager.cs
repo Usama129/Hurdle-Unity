@@ -86,8 +86,9 @@ public class KinectManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    /*
-     void Update()
+
+    void Update()
+
     {
 
         // process bodies
@@ -127,7 +128,9 @@ public class KinectManager : MonoBehaviour
             }
         }
 
-    }*/
+
+    }
+
 
     private EventHandler<GestureEventArgs> CreateOnGestureHandler(int bodyIndex)
     {
