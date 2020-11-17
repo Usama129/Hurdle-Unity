@@ -128,13 +128,17 @@ public class Avatar : MonoBehaviour
     private void Crouch() {
         jumpAnim.Play("Crouch");
         //UnityEngine.Debug.Log("Crouch");
-        //GetComponent<CapsuleCollider>().height = 0.8f;
+        GetComponent<CapsuleCollider>().height = 1.5f;
         GetComponent<Rigidbody>().AddForce(Vector3.down * 1, ForceMode.Impulse);
+         UnityEngine.Debug.Log("this is the collider height" + GetComponent<CapsuleCollider>().height);
     }
 
     private void StandFromCrouch() {
         jumpAnim.Play("Idle");
         crouchStartTime = 0;
+        UnityEngine.Debug.Log("this is the collider height"+GetComponent<CapsuleCollider>().height);
+        GetComponent<CapsuleCollider>().height=1.9f;
+
     }
 
     private void ChangeLane(bool towardRight) {
