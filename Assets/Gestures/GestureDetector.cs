@@ -46,14 +46,18 @@ public class GestureEventArgs : EventArgs
 public class GestureDetector : IDisposable
 {
     /// <summary> Path to the gesture database that was trained with VGB </summary>
-    private readonly string jumpDB = "GestureDB\\Jump.gbd";
+    private readonly string jumpDB = "GestureDB\\Gesture.gbd";
 
 
     /// <summary> Name of the discrete gesture in the database that we want to track </summary>
-    private readonly string leanLeftGestureName = "Lean_Left";
-    private readonly string leanRightGestureName = "Lean_Right";
+    //private readonly string leanLeftGestureName = "Lean_Left";
+    //private readonly string leanRightGestureName = "Lean_Right";
 
     private readonly string jumpGestureName = "Jump";
+    private readonly string leftGestureName = "Left";
+    private readonly string rightGestureName = "Right";
+    private readonly string crouchGestureName = "Crouch";
+    private readonly string standFromCrouchGestureName = "StandFromCrouch";
 
     /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
     private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -122,6 +126,22 @@ public class GestureDetector : IDisposable
                 }*/
 
                 if (gesture.Name.Equals(this.jumpGestureName)) {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+                if (gesture.Name.Equals(this.rightGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+                if (gesture.Name.Equals(this.leftGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+                if (gesture.Name.Equals(this.crouchGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+                if (gesture.Name.Equals(this.standFromCrouchGestureName))
+                {
                     this.vgbFrameSource.AddGesture(gesture);
                 }
             }
@@ -236,7 +256,7 @@ public class GestureDetector : IDisposable
 
 
 
-                        if (gesture.Name.Equals(this.leanLeftGestureName) && gesture.GestureType == GestureType.Discrete)
+                        if (gesture.Name.Equals(this.leftGestureName) && gesture.GestureType == GestureType.Discrete)
                         {
                             DiscreteGestureResult result = null;
                             discreteResults.TryGetValue(gesture, out result);
@@ -245,12 +265,12 @@ public class GestureDetector : IDisposable
                             {
                                 if (this.OnGestureDetected != null)
                                 {
-                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.leanLeftGestureName));
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.leftGestureName));
                                 }
                             }
                         }
 
-                        if (gesture.Name.Equals(this.leanRightGestureName) && gesture.GestureType == GestureType.Discrete)
+                        if (gesture.Name.Equals(this.rightGestureName) && gesture.GestureType == GestureType.Discrete)
                         {
                             DiscreteGestureResult result = null;
                             discreteResults.TryGetValue(gesture, out result);
@@ -259,7 +279,35 @@ public class GestureDetector : IDisposable
                             {
                                 if (this.OnGestureDetected != null)
                                 {
-                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.leanRightGestureName));
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.rightGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.crouchGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.crouchGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.standFromCrouchGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.standFromCrouchGestureName));
                                 }
                             }
                         }

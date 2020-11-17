@@ -25,10 +25,10 @@ public class Positions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (GameObject obs in obstacles) {
-            if (obs.GetComponent<Rigidbody>().position.z < Avatar.pos.z - 5)
+        for (int i = 0; i < 5; i++) {
+            if (obstacles[i].GetComponent<Rigidbody>().position.z < Avatar.pos.z - 5)
             {
-                Obstacle obj = (Obstacle)obs.GetComponent(typeof(Obstacle));
+                Obstacle obj = (Obstacle)obstacles[i].GetComponent(typeof(Obstacle));
                 obj.renew();
             }
         }

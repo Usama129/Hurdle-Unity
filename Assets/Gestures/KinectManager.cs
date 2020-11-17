@@ -32,6 +32,10 @@ public class KinectManager : MonoBehaviour
     //private string leanRightGestureName = "Lean_Right";
 
     private string jumpGestureName = "Jump";
+    private string leftGestureName = "Left";
+    private string rightGestureName = "Right";
+    private string crouchGestureName = "Crouch";
+    private string standFromCrouchGestureName = "StandFromCrouch";
 
     // GUI output
     private UnityEngine.Color[] bodyColors;
@@ -145,7 +149,6 @@ public class KinectManager : MonoBehaviour
             //text.Append(string.Format("Confidence: {0}\n", e.DetectionConfidence));
             if (e.DetectionConfidence > 0.70f)
             {
-                UnityEngine.Debug.Log("JUMPED > 0.70");
                 Avatar.kinectJump = true;
             }
             else
@@ -154,6 +157,31 @@ public class KinectManager : MonoBehaviour
             }
         }
 
+        if (e.GestureID == rightGestureName) {
+            if (e.DetectionConfidence > 0.70f)
+            {
+                Avatar.kinectRight = true;
+            }
+        }
+        if (e.GestureID == leftGestureName) {
+            if (e.DetectionConfidence > 0.70f) {
+                Avatar.kinectLeft = true;
+            }
+        }
+
+        if (e.GestureID == crouchGestureName) {
+            if (e.DetectionConfidence > 0.70f) {
+                Avatar.kinectCrouch = true;
+            }
+        }
+
+        if (e.GestureID == standFromCrouchGestureName)
+        {
+            if (e.DetectionConfidence > 0.70f)
+            {
+                Avatar.kinectStandFromCrouch = true;
+            }
+        }
 
         //this.bodyText[bodyIndex] = text.ToString();
     }

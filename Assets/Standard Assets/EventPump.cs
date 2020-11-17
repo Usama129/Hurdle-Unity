@@ -64,7 +64,7 @@ namespace Helper
                 sensor.Close();
             }
 
-            NativeObjectCache.Flush();
+            //NativeObjectCache.Flush();
         }
 
         public void Enqueue(Action action)
