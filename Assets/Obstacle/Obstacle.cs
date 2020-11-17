@@ -6,6 +6,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
 
+    private static int speedobs = -500; 
     private Rigidbody rg;
     Vector3 velocity;
 
@@ -18,8 +19,10 @@ public class Obstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetComponent<Rigidbody>().AddForce(0f, 0f, -500 * Time.deltaTime);
+        GetComponent<Rigidbody>().AddForce(0f, 0f, speedobs * Time.deltaTime);
         GetComponent<Rigidbody>().velocity = velocity;
+
+
     }
 
     public void renew() {
@@ -28,5 +31,8 @@ public class Obstacle : MonoBehaviour
         transform.position = newPosition; // We pass it back
     }
 
+    public static void IncreaseSpeed(){
+        speedobs-=1000;
+    }
 
 }
