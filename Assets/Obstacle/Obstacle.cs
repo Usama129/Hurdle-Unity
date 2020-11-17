@@ -7,17 +7,26 @@ public class Obstacle : MonoBehaviour
 {
 
     private Rigidbody rg;
+    Vector3 velocity;
 
     // Start is called before the first frame update
     void Start()
     {
-        rg = GetComponent<Rigidbody>();
+        velocity = new Vector3(0, 0, -20);
     }
 
     // Update is called once per frame
     void Update()
     {
-        rg.AddForce(0f, 0f, -500 * Time.deltaTime);
-        //UnityEngine.Debug.Log("hello");
+        GetComponent<Rigidbody>().AddForce(0f, 0f, -500 * Time.deltaTime);
+        GetComponent<Rigidbody>().velocity = velocity;
     }
+
+    public void renew() {
+        Vector3 newPosition = transform.position; // We store the current position
+        newPosition.z = 50; // We set a axis, in this case the z axis
+        transform.position = newPosition; // We pass it back
+    }
+
+
 }

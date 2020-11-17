@@ -8,23 +8,38 @@ public class Avatar : MonoBehaviour
 {
     private Animator jumpAnim;
     private GameObject ground;
-    private float jumpForce = 8;
+    private float jumpForce = 5;
     public static bool kinectJump;
+    public static Vector3 pos;
+    private int lane = 1;
+    private float maxRight, maxLeft;
 
     void Start()
     {
         ground = GameObject.Find("Ground");
         jumpAnim = GetComponent<Animator>();
         kinectJump = false;
+        maxRight = 4.3f;
+        maxLeft = -4.3f;
     }
 
     void FixedUpdate()
     {
-        if ((Input.GetKey(KeyCode.UpArrow) || kinectJump) && IsGrounded() )
+        Move();
+        
+        pos = GetComponent<Rigidbody>().position;
+
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || kinectJump) && IsGrounded())
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            jumpAnim.Play("Start Jump");
-            kinectJump = false;
+            if (currentStateMatches("Crouch"))
+            {
+                StandFromCrouch();
+            }
+            else {
+                GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                jumpAnim.Play("Start Jump");
+                kinectJump = false;
+            }
         }
 
         // The transition from Start Jump to Midair is not in code: it is in the Unity Animator view
@@ -37,14 +52,19 @@ public class Avatar : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.RightArrow) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.RightArrow) && IsGrounded())
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.right * 1, ForceMode.Impulse);
+            ChangeLane(true);
+           
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && IsGrounded())
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.left * 1, ForceMode.Impulse);
+            ChangeLane(false);
+        }
+
+        if (Input.GetKey(KeyCode.DownArrow) && IsGrounded()) {
+            Crouch();
         }
     }
 
@@ -75,6 +95,35 @@ public class Avatar : MonoBehaviour
     private bool currentStateMatches(string state) // checks if a state matches the current state in the Jump Animator
     {
         return jumpAnim.GetCurrentAnimatorStateInfo(0).IsName(state);
+    }
+
+    private void Crouch() {
+        jumpAnim.Play("Crouch");
+        //UnityEngine.Debug.Log("Crouch");
+        //GetComponent<CapsuleCollider>().height = 0.8f;
+        GetComponent<Rigidbody>().AddForce(Vector3.down * 1, ForceMode.Impulse);
+    }
+
+    private void StandFromCrouch() {
+        jumpAnim.Play("Idle");
+    }
+
+    private void ChangeLane(bool towardRight) {
+        lane += towardRight ? 1 : -1;
+        lane = Mathf.Clamp(lane, 0, 2);
+        UnityEngine.Debug.Log(lane);
+    }
+
+    private void Move() {
+        float step = 25.0f * Time.deltaTime; // calculate distance to move
+        Vector3 target = transform.position;
+        if (lane == 0)
+            target.x = maxLeft;
+        else if (lane == 1)
+            target.x = 0.0f;
+        else if (lane == 2)
+            target.x = maxRight;
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
     }
 
 }
