@@ -34,6 +34,7 @@ public class Positions : MonoBehaviour
         
             if (Avatar.pos.z > obstacles[j].GetComponent<Rigidbody>().position.z)
             {
+                
                 obstacles[j+1] = Instantiate(myPrefab, new Vector3(x[randomX], y[randomY], z), Quaternion.identity);
                 j += 1;
                 count += 1;

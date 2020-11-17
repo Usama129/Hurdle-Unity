@@ -17,7 +17,7 @@ GameObject:
   m_Layer: 0
   m_Name: Obstacle
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -123,5 +123,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d313a1fc0efbc794991139295304140e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myPrefab: {fileID: 9012339510012381661}
-  obstacles: []
