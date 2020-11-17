@@ -34,6 +34,7 @@ public class Positions : MonoBehaviour
 
         if (Avatar.pos.z > obstacles[j].GetComponent<Rigidbody>().position.z)
         {
+
             obstacles[j + 1] = Instantiate(myPrefab, new Vector3(x[randomX], y[randomY], z), Quaternion.identity);
             j += 1;
             count += 1;
@@ -45,11 +46,3 @@ public class Positions : MonoBehaviour
         }
     }
 }
-/* foreach (GameObject obs in obstacles) {
-        if (obs.GetComponent<Rigidbody>().position.z < Avatar.pos.z - 5)
-        {
-            Obstacle obj = (Obstacle)obs.GetComponent(typeof(Obstacle));
-            obj.renew();
-        }
-    }
-    */
