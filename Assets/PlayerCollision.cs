@@ -10,7 +10,7 @@ public class PlayerCollision : MonoBehaviour
 
         if (collisionInfo.collider.name == "Obstacle" || collisionInfo.collider.name == "Obstacle(Clone)")
         {
-            Debug.Log("I just hit an obstacle ");
+            Toast.Instance.Show("Avoid collisions!", 3f, Toast.ToastColor.Red);
         }
 
     }

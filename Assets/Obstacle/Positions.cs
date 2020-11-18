@@ -42,7 +42,7 @@ public class Positions : MonoBehaviour
             {
                 Obstacle.IncreaseSpeed();
             }
-            UnityEngine.Debug.Log(z);
+            //UnityEngine.Debug.Log(z);
         }
     }
 }

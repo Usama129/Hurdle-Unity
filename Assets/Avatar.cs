@@ -13,7 +13,7 @@ public class Avatar : MonoBehaviour
     public static Vector3 pos;
     private int lane = 1;
     private float maxRight, maxLeft, crouchStartTime = 0, crouchingTime = 2;
-    int c = 0;
+    private Stopwatch lastSwerve = new Stopwatch();
 
     void Start()
     {
@@ -45,7 +45,7 @@ public class Avatar : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.UpArrow) || kinectJump) && IsGrounded())
         {
 
-            c++;
+           
                 
 
             if (currentStateMatches("Crouch"))
@@ -127,23 +127,29 @@ public class Avatar : MonoBehaviour
 
     private void Crouch() {
         jumpAnim.Play("Crouch");
+       
+
         //UnityEngine.Debug.Log("Crouch");
-        GetComponent<CapsuleCollider>().height = 1.5f;
-        GetComponent<Rigidbody>().AddForce(Vector3.down * 1, ForceMode.Impulse);
-         UnityEngine.Debug.Log("this is the collider height" + GetComponent<CapsuleCollider>().height);
+        /* GetComponent<CapsuleCollider>().height = 1.5f;
+         GetComponent<Rigidbody>().AddForce(Vector3.down * 1, ForceMode.Impulse);*/
+
     }
 
     private void StandFromCrouch() {
+
         jumpAnim.Play("Idle");
         crouchStartTime = 0;
-        UnityEngine.Debug.Log("this is the collider height"+GetComponent<CapsuleCollider>().height);
-        GetComponent<CapsuleCollider>().height=1.9f;
+       
 
     }
 
     private void ChangeLane(bool towardRight) {
+        if (lastSwerve.ElapsedMilliseconds > 0 && lastSwerve.ElapsedMilliseconds < 1500)
+            return;
+        //UnityEngine.Debug.Log(lastSwerve.ElapsedMilliseconds);
         lane += towardRight ? 1 : -1;
         lane = Mathf.Clamp(lane, 0, 2);
+        lastSwerve.Restart();
     }
 
     private void Move() {

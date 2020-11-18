@@ -46,7 +46,7 @@ public class GestureEventArgs : EventArgs
 public class GestureDetector : IDisposable
 {
     /// <summary> Path to the gesture database that was trained with VGB </summary>
-    private readonly string jumpDB = "GestureDB\\Gesture.gbd";
+    private readonly string jumpDB = "GestureDB\\DemoTest.gbd";
 
 
     /// <summary> Name of the discrete gesture in the database that we want to track </summary>
