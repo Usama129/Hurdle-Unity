@@ -14,16 +14,16 @@ public class Positions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        obstacles = new GameObject[200];
+        /*obstacles = new GameObject[200];
 
         obstacles[j] = Instantiate(myPrefab, new Vector3(0, 0.75F, z), Quaternion.identity);
-        z += 25;
+        z += 25;*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        float[] x = { -4.3f, 0f, 4.3f };
+        /*float[] x = { -4.3f, 0f, 4.3f };
         float[] y = { 0.75f, 2.85f };
 
         System.Random rd = new System.Random();
@@ -42,7 +42,6 @@ public class Positions : MonoBehaviour
             {
                 Obstacle.IncreaseSpeed();
             }
-            //UnityEngine.Debug.Log(z);
-        }
+        }*/
     }
 }

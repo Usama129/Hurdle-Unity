@@ -32,43 +32,29 @@ public class Avatar : MonoBehaviour
     {
         Move();
 
-        if (currentStateMatches("Crouch")){
+        if (currentStateMatches("Crouch"))
+        {
             crouchStartTime += Time.deltaTime;
         }
 
-        //UnityEngine.Debug.Log(crouchStartTime);
-
         pos = GetComponent<Rigidbody>().position;
-
-
 
         if ((Input.GetKeyDown(KeyCode.UpArrow) || kinectJump) && IsGrounded())
         {
-
-           
-                
 
             if (currentStateMatches("Crouch"))
             {
                 StandFromCrouch();
             }
-            else {
-                    
+            else
+            {
+
                 GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 jumpAnim.Play("Start Jump");
                 kinectJump = false;
             }
         }
 
-        // The transition from Start Jump to Midair is not in code: it is in the Unity Animator view
-
-        /*if (currentStateMatches("Midair"))
-        {
-            if (DistanceToGround() < 2.5 && VerticalVelocity() < 0)
-            {
-                jumpAnim.Play("End Jump");
-            }
-        }*/
 
         if (DistanceToGround() < 1 && VerticalVelocity() < 0)
         {
@@ -87,7 +73,8 @@ public class Avatar : MonoBehaviour
             kinectLeft = false;
         }
 
-        if ((Input.GetKey(KeyCode.DownArrow) || kinectCrouch) && IsGrounded()) {
+        if ((Input.GetKey(KeyCode.DownArrow) || kinectCrouch) && IsGrounded())
+        {
             Crouch();
             kinectCrouch = false;
         }
@@ -107,7 +94,7 @@ public class Avatar : MonoBehaviour
 
     private float DistanceToGround()
     {
-       return GetComponent<Rigidbody>().position.y - ground.transform.position.y;
+        return GetComponent<Rigidbody>().position.y - ground.transform.position.y;
     }
 
     private bool IsGrounded()
@@ -125,9 +112,10 @@ public class Avatar : MonoBehaviour
         return jumpAnim.GetCurrentAnimatorStateInfo(0).IsName(state);
     }
 
-    private void Crouch() {
+    private void Crouch()
+    {
         jumpAnim.Play("Crouch");
-       
+
 
         //UnityEngine.Debug.Log("Crouch");
         /* GetComponent<CapsuleCollider>().height = 1.5f;
@@ -135,15 +123,17 @@ public class Avatar : MonoBehaviour
 
     }
 
-    private void StandFromCrouch() {
+    private void StandFromCrouch()
+    {
 
         jumpAnim.Play("Idle");
         crouchStartTime = 0;
-       
+
 
     }
 
-    private void ChangeLane(bool towardRight) {
+    private void ChangeLane(bool towardRight)
+    {
         if (lastSwerve.ElapsedMilliseconds > 0 && lastSwerve.ElapsedMilliseconds < 1500)
             return;
         //UnityEngine.Debug.Log(lastSwerve.ElapsedMilliseconds);
@@ -152,7 +142,8 @@ public class Avatar : MonoBehaviour
         lastSwerve.Restart();
     }
 
-    private void Move() {
+    private void Move()
+    {
         float step = 25.0f * Time.deltaTime; // calculate distance to move
         Vector3 target = transform.position;
         if (lane == 0)
