@@ -79,6 +79,11 @@ public class KinectMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Transform foot = RecursiveFindChild(gameObject.transform, jointsMap["FootRight"]);
+        foot.position = new Vector3(foot.position.x, Mathf.Clamp(foot.position.y, 0, 1), foot.position.z);
+
+
         if (BodySourceManager == null)
         {
             Debug.Log("BodySourceManager is null");
@@ -216,7 +221,7 @@ public class KinectMap : MonoBehaviour
                 Vector3 RShoulder = GetVector3FromJoint(body.Joints[Kinect.JointType.ShoulderRight]);
                 float AngleHip = AngleBetweenTwoVectors(RHip - RShoulder, RHip - RKnee);
                 Transform jointObj = RecursiveFindChild(gameObject.transform, jointsMap[jt.ToString()]);
-                //jointObj.localRotation = Quaternion.Euler(AngleHip + 20, 0f, 0f);
+                jointObj.localRotation = Quaternion.Euler(0f, AngleHip + 20, 0f);
             }
 
             else if (jt.ToString() == "HipLeft")
@@ -229,7 +234,7 @@ public class KinectMap : MonoBehaviour
                 float AngleHip = AngleBetweenTwoVectors(LHip - LShoulder, LHip - LKnee);
                 Transform jointObj = RecursiveFindChild(gameObject.transform, jointsMap[jt.ToString()]);
 
-                //jointObj.localRotation = Quaternion.Euler(AngleHip + 20, 0f, 0f);
+                jointObj.localRotation = Quaternion.Euler(0f, AngleHip + 20, 0f);
             }
 
             else if (jt.ToString() == "KneeRight")
@@ -264,7 +269,7 @@ public class KinectMap : MonoBehaviour
             else if (jt.ToString() == "SpineBase") {
                 Transform jointObj = RecursiveFindChild(gameObject.transform, jointsMap[jt.ToString()]);
                 Vector3 spine = GetVector3FromJoint(body.Joints[Kinect.JointType.SpineBase]);
-                jointObj.position = new Vector3(spine.x, spine.y*2, jointObj.position.z);
+                jointObj.position = new Vector3(spine.x, jointObj.position.y, jointObj.position.z);
             }
 
 

@@ -30,6 +30,10 @@ public class Avatar : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
+
+
         Move();
 
         if (currentStateMatches("Crouch"))
@@ -85,10 +89,10 @@ public class Avatar : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.CompareTag("ground"))
+        
+        if (collision.gameObject.name.Contains("Asteroid"))
         {
-
+            jumpAnim.Play("Death");
         }
     }
 
